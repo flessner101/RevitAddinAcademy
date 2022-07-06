@@ -27,16 +27,6 @@ namespace RevitAddinAcademy
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-            string text = "Revit Add-in Academy";
-            string fileName = doc.PathName;
-
-            double offset = 0.05;
-            double offsetCalc = offset * doc.ActiveView.Scale;
-
-            XYZ curPoint = new XYZ(0,0,0);
-            XYZ offsetPoint = new XYZ(0,offsetCalc,0);
-
-
            FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(TextNoteType));
 
@@ -46,22 +36,12 @@ namespace RevitAddinAcademy
             int range = 100;
             for (int i = 1; i <= range; i++)
             {
-                TextNote curNote = TextNote.Create(doc, doc.ActiveView.Id, curPoint, "This is line " + i.ToString(), collector.FirstElementId());
-                curPoint = curPoint.Subtract(offsetPoint);
+                if (i%3 == 0, 
             }
 
             t.Commit();
             t.Dispose();
             return Result.Succeeded;
-        }
-
-        internal double Method01(double a, double b)
-        {
-            double c = a + b;
-
-            Debug.Print("Got here: " + c.ToString());
-
-            return c;
         }
     }
 }
