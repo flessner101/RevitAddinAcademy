@@ -27,7 +27,13 @@ namespace RevitAddinAcademy
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-           FilteredElementCollector collector = new FilteredElementCollector(doc);
+            double offset = 0.05;
+            double offsetCalc = offset * doc.ActiveView.Scale;
+
+            XYZ curPoint = new XYZ(0, 0, 0);
+            XYZ offsetPoint = new XYZ(0, offsetCalc, 0);
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
             collector.OfClass(typeof(TextNoteType));
 
             Transaction t = new Transaction(doc, "Create Text Note");
@@ -36,7 +42,26 @@ namespace RevitAddinAcademy
             int range = 100;
             for (int i = 1; i <= range; i++)
             {
-                if (i%3 == 0, 
+                if (i%3 == 0)
+                {
+                    TextNote curNote = TextNote.Create(doc, doc.ActiveView.Id, curPoint, "FIZZ", collector.FirstElementId());
+                }
+
+                else if (i%5 == 0)
+                {
+                    TextNote curNote = TextNote.Create(doc, doc.ActiveView.Id, curPoint, "BUZZ", collector.FirstElementId());
+                }
+
+                else if (i%5 == 0 & i%5 == 3)
+                {
+                    TextNote curNote = TextNote.Create(doc, doc.ActiveView.Id, curPoint, "FIZZBUZZ", collector.FirstElementId());
+                }
+
+                else
+                {
+                    TextNote curNote = TextNote.Create(doc, doc.ActiveView.Id, curPoint, i.ToString(), collector.FirstElementId());
+
+                }
             }
 
             t.Commit();
